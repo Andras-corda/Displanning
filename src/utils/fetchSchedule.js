@@ -24,6 +24,7 @@ export async function fetchScheduleForCommand(interaction, { weekOffset = 0 } = 
     if (err instanceof GroupeIntrouvableError) {
       await interaction.editReply(ERROR_MESSAGES.groupeIntrouvable(code));
     } else {
+      console.error(`[fetchSchedule] Scraping échoué pour ${code} (weekOffset=${weekOffset}):`, err);
       await interaction.editReply(ERROR_MESSAGES.indisponible);
     }
     return null;
