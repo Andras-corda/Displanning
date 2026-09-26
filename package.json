@@ -1,0 +1,20 @@
+{
+  "name": "heaj-schedule-bot",
+  "version": "0.1.0",
+  "description": "Bot Discord (DM/groupe privé uniquement) pour consulter un horaire HEAJ depuis l'Espace Invite PRONOTE Campus / HyperPlanning, sans authentification et sans aucune donnee stockee",
+  "type": "module",
+  "private": true,
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "deploy-commands": "node src/deploy-commands.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "discord.js": "^14.16.3",
+    "dotenv": "^16.4.5",
+    "puppeteer": "^25.12.0"
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "_comment": "Ce fichier est un exemple. Le bot lit/écrit réellement data/config.json (ignoré par git, spécifique à chaque déploiement/année scolaire). Modifiable en direct via /admin set-url — ce fichier n'a besoin d'être édité à la main que pour préconfigurer un déploiement.",
+  "inviteUrl": "https://heaj2627.hyperplanning.fr/hp/invite"
+}
