@@ -50,6 +50,20 @@ sous-groupes/options ont bien cours le samedi, ex: B2J4/B2TA1 le 26
 septembre 2026) — corrigé sur signalement de l'utilisateur : `/tomorrow`
 affiche désormais littéralement le jour civil suivant, samedi inclus.
 
+**V1.1** — le cahier des charges original précisait "jamais ajouté à un
+serveur" (consultation en message privé uniquement). Sur demande de
+l'utilisateur, le bot est désormais aussi installable sur un serveur
+Discord (`ApplicationIntegrationType.GuildInstall` + contexte `Guild`,
+voir `src/utils/groupOptions.js` et `src/commands/help.js`), utilisable
+par n'importe qui sur ce serveur, sans restriction de rôle. Le principe
+"zéro donnée" n'est pas remis en cause : aucune config par
+serveur/salon n'a été ajoutée, chaque commande continue de demander
+programme + groupe explicitement, exactement comme en DM. `/admin` reste
+volontairement exclu du contexte `Guild` (contextes inchangés : DM +
+groupe privé uniquement) — il n'a aucune raison d'être exposé sur un
+serveur, même s'il resterait de toute façon bloqué pour qui n'est pas
+`ADMIN_DISCORD_ID`.
+
 ## Comment les données sont récupérées
 
 L'Espace Invité est une application web monopage qui charge tout son
@@ -226,7 +240,7 @@ explicite plutôt qu'une réponse incorrecte. Le cache est désormais clé par
 | Aucun stockage (ni base de données, ni fichier) | Demande explicite de l'utilisateur (voir "Écarts assumés" ci-dessus). |
 | Catalogue programme/groupe statique, assemblé à la main | Éviter une énumération automatique qui déclenche une défense anti-scraping côté serveur (voir plus haut). |
 | Cache par **(groupe, décalage de semaine)** (pas par utilisateur), TTL configurable, en mémoire | Plusieurs étudiant·e·s du même groupe/semaine partagent une seule requête de scraping ; donnée publique, sans lien avec un utilisateur, cohérent avec l'objectif "aucune donnée stockée". |
-| Application "installable par utilisateur", contextes DM + groupe privé (`integration_types`/`contexts` Discord) | Impose nativement "jamais ajouté à un serveur", sans code de vérification supplémentaire ; étendu au groupe privé sur demande utilisateur. |
+| Application installable par utilisateur **et** par serveur, contextes DM + groupe privé + serveur (`integration_types`/`contexts` Discord, par commande) | Couvre nativement les contextes autorisés sans code de vérification supplémentaire. `/admin` reste volontairement limité à DM + groupe privé (V1.1) — les commandes de consultation ajoutent `GuildInstall`/`Guild` (V1.1, écart assumé par rapport au "jamais ajouté à un serveur" du cahier des charges original, voir ci-dessus). |
 | URL de l'Espace Invité configurable en direct (`src/services/config.js`, `/admin set-url`), persistée dans `data/config.json` (gitignoré) | L'URL change de nom chaque année scolaire (ex: `heaj2627` → `heaj2728`) ; évite d'avoir à modifier le code et redéployer chaque rentrée. C'est une config admin globale, pas une donnée liée à un utilisateur — cohérent avec l'objectif "aucune donnée utilisateur stockée". |
 | Salles cliquables via un catalogue statique (`src/data/locaux.js`) | Les salles scrapées sont préfixées par bâtiment (`CAD-A150`, `Le 54-210`) ; le préfixe indique quelle carte Mappedin utiliser, le reste est le code de local dans cette carte. Catalogue à la main (fourni par l'utilisateur), pas d'API publique pour ces cartes. |
 
@@ -269,8 +283,9 @@ explicite plutôt qu'une réponse incorrecte. Le cache est désormais clé par
   carte Mappedin ; salle inconnue ou format grid (dans un bloc de code,
   Markdown désactivé) → texte brut inchangé. Vérifié avec des salles
   scrapées réelles (simples et combinées, ex: `CAD-B236 / CAD-C-43`).
-- Commandes restreintes à l'installation utilisateur et aux contextes DM +
-  groupe privé.
+- Commandes de consultation installables en DM, groupe privé, et serveur
+  (V1.1) ; `/admin` reste restreint à l'installation utilisateur et aux
+  contextes DM + groupe privé.
 - Aucune donnée utilisateur persistée (pas de fichier, pas de base de
   données liant un compte Discord à un groupe). Seule exception : une
   config admin globale (URL de l'Espace Invité de l'année en cours, voir

@@ -51,8 +51,8 @@ export function addGroupOptions(builder, { includeDisplayOptions = true } = {}) 
   }
 
   return builder
-    .setIntegrationTypes([ApplicationIntegrationType.UserInstall])
-    .setContexts([InteractionContextType.BotDM, InteractionContextType.PrivateChannel]);
+    .setIntegrationTypes([ApplicationIntegrationType.UserInstall, ApplicationIntegrationType.GuildInstall])
+    .setContexts([InteractionContextType.BotDM, InteractionContextType.PrivateChannel, InteractionContextType.Guild]);
 }
 
 /*

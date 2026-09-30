@@ -22,9 +22,13 @@ seul lien entre toi et le bot est celui que Discord gère lui-même
 config admin globale (l'URL de l'Espace Invité en cours), pas liée à un
 utilisateur — voir plus bas.
 
-Le bot fonctionne **uniquement en message privé et en groupe privé**
-(application installable par utilisateur — il n'est jamais ajouté à un
-serveur Discord).
+Le bot fonctionne en **message privé, en groupe privé, et sur un serveur
+Discord** une fois ajouté (chaque commande de consultation reste
+utilisable par n'importe qui — aucun rôle requis). Le principe "zéro
+donnée" reste inchangé partout : même sur un serveur, chaque commande
+demande explicitement programme + groupe, rien n'est mémorisé par
+serveur/salon. Seul `/admin` reste réservé au message privé/groupe privé
+(voir "Permissions Discord" plus bas).
 
 ## Prérequis
 
@@ -54,10 +58,13 @@ utilisateur ; peut prendre jusqu'à 1h pour apparaître partout)
 npm start
 ```
 
-Puis installe l'application sur ton propre compte Discord (Developer Portal
-→ ton app → onglet **Installation** → active **User Install**, puis utilise
-le lien d'installation généré), et utilise les commandes en message privé
-ou en groupe privé avec le bot.
+Puis installe l'application (Developer Portal → ton app → onglet
+**Installation** → active **User Install** *et* **Guild Install** selon
+l'usage voulu, puis utilise le lien d'installation généré) :
+- **User Install** : installation sur ton propre compte, utilisable en
+  message privé et en groupe privé.
+- **Guild Install** : ajout du bot sur un serveur Discord, utilisable dans
+  les salons du serveur par n'importe qui.
 
 ## Commandes
 
@@ -132,5 +139,9 @@ survit aux redémarrages) et vide automatiquement le cache.
 
 ## Permissions Discord
 
-Application installable par utilisateur, utilisable en message privé et en
-groupe privé — jamais dans un serveur, aucune permission de serveur requise.
+Application installable par utilisateur **et** par serveur (Guild Install).
+Aucune permission de serveur n'est requise : les réponses aux commandes
+passent par le mécanisme d'interaction Discord, pas par un envoi de
+message classique. `/admin` reste limité au message privé et au groupe
+privé (`setContexts` exclut `Guild` pour cette commande) — il n'est jamais
+utilisable dans un salon de serveur, même par l'administrateur.

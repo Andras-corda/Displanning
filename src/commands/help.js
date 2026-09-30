@@ -9,8 +9,8 @@ import {
 export const data = new SlashCommandBuilder()
   .setName('help')
   .setDescription('List available commands')
-  .setIntegrationTypes([ApplicationIntegrationType.UserInstall])
-  .setContexts([InteractionContextType.BotDM, InteractionContextType.PrivateChannel]);
+  .setIntegrationTypes([ApplicationIntegrationType.UserInstall, ApplicationIntegrationType.GuildInstall])
+  .setContexts([InteractionContextType.BotDM, InteractionContextType.PrivateChannel, InteractionContextType.Guild]);
 
 export async function execute(interaction) {
   const embed = new EmbedBuilder()
